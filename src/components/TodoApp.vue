@@ -23,10 +23,15 @@
           </div>
           <div class="btn-option-div">
             <button class="btn btn-outline-info" v-on:click="editTodo(todo,index)">Edit</button>
-            <button class="btn btn-outline-success" v-on:click="completeTodo(index,todo)">Complete</button>
-            <button class="btn btn-outline-danger" v-on:click="deleteTodo(todo,index)">Remove</button>
+            <button class="btn btn-outline-success" v-on:click="completedTodo(index,todo)">Complete</button>
+            <button class="btn btn-outline-danger" v-on:click="deleteTodo(todo)">Remove</button>
           </div>
       </li>
+    </ul>
+
+    <h2>Completed</h2>
+    <ul class="completed-list">
+      <li v-for="(todo,index) in completedTodos" :key="index">{{ todo.content }}</li>
     </ul>
   </div>
 </template>
@@ -81,7 +86,6 @@ export default {
         }
       })
       .then(() => {
-        res => this.todos.push(res.data)
         this.todos = this.getAllTodo()
       })
       .catch((error) => {
@@ -124,8 +128,7 @@ export default {
         }
       })
       .then ((res) => {
-        this.todos.splice(this.selectedIndex, 1, res.data)
-        if (res.status === '200') {
+        if (res.status === 200) {
           this.todos = this.getAllTodo()
         }
       })
@@ -142,7 +145,15 @@ export default {
       this.todo = ''
     },
 
-    async deleteTodo(todo,index){
+    completedTodo(index, todo) {
+      this.todo = todo
+      this.selectedID = index
+      this.completedTodos.push(this.todo)
+      this.todos = this.deleteTodo(todo)
+      this.todo = ''
+    },
+    
+    async deleteTodo(todo){
       await axios.delete(`https://todo-mvc-api-typeorm.herokuapp.com/api/todos/${todo.id}`,
       {
       headers: {
@@ -150,7 +161,6 @@ export default {
         }
       })
       .then(()=> {
-        this.todos.splice(index,1)
         this.todos = this.getAllTodo()
       })
       .catch(function(error) {
@@ -160,3 +170,11 @@ export default {
   }
 }
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.completed-list {
+  list-style-type: none;
+  text-decoration: line-through;
+}
+</style>
