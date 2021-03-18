@@ -14,7 +14,10 @@
     </div>
 
     <h2> Todos</h2>
-    <ul class="list-group list-group-flush text-dark">
+    <div v-if="!isLoader" class="loader loader-default"></div>
+    <div v-else class="loader loader-default is-active" data-text></div>
+    <div v-if="!isLoader">
+    <ul   class="list-group list-group-flush text-dark">
       <li v-for="(todo, index) in todos" :key="todo.index" class="list-group-item p-3 d-flex justify-content-between align-items-center">
           <div class="d-flex">
               <div class="align-item-center">
@@ -28,7 +31,7 @@
           </div>
       </li>
     </ul>
-
+    </div>
     <h2>Completed</h2>
     <ul class="completed-list">
       <li v-for="(todo,index) in completedTodos" :key="index">{{ todo.content }}</li>
@@ -39,7 +42,7 @@
 <script>
 /* eslint-disable */
 import axios  from 'axios'
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdmMjQ2Mjc2LWIxYTEtNGQzOS04YWU2LWIzZjMwODcyYTI2ZiIsImlhdCI6MTYxNTM3MjE4NCwiZXhwIjoxNjE1OTc2OTg0fQ.Tt1yBpuA5wwTq-At2cvoXBwCe3GhPZKE5nCsvUHRDgE'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmZjNkNzQ4LTJmZDktNGRiZC04NTIyLWYwNjQwOGQ5ODA5NyIsImlhdCI6MTYxNjA1MzU3MSwiZXhwIjoxNjE2NjU4MzcxfQ.lHONQimlOnFDreJMw7xWJTp-wcHpBh-xSjpuymYC2XY'
 export default {
   name: 'TodoApp',
   data () {
@@ -47,6 +50,7 @@ export default {
       selectedID: null,
       selectedIndex: null,
       isEditing: false,
+      isLoader: false,
       todo: '',
       todos: [],
       completedTodos: [],
@@ -55,6 +59,7 @@ export default {
   
   created() {
     this.getAllTodo()
+    this.isLoader = true
   },
 
   methods: {
@@ -70,6 +75,7 @@ export default {
       } catch (e) {
         console.error(e)
       }
+      this.isLoader = false
     },
 
     async storeTodo(){
@@ -87,6 +93,7 @@ export default {
       })
       .then(() => {
         this.todos = this.getAllTodo()
+        this.isLoader = true
       })
       .catch((error) => {
         console.log(error)
@@ -137,6 +144,7 @@ export default {
       })
         this.selectedIndex = null
         this.isEditing = false
+        this.isLoader = true
         this.todo = ''
     },
 
@@ -151,6 +159,7 @@ export default {
       this.completedTodos.push(this.todo)
       this.todos = this.deleteTodo(todo)
       this.todo = ''
+      this.isLoader = true
     },
     
     async deleteTodo(todo){
@@ -166,6 +175,7 @@ export default {
       .catch(function(error) {
         console.log(error)
       })
+      this.isLoader = true
     },
   }
 }
