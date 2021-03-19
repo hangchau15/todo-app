@@ -14,25 +14,23 @@
     </div>
 
     <h2> Todos</h2>
-    <div v-if="!isLoader" class="loader loader-default"></div>
-    <div v-else class="loader loader-default is-active" data-text></div>
-    <div v-if="!isLoader">
-    <ul   class="list-group list-group-flush text-dark">
-      <li v-for="(todo, index) in todos" :key="todo.index" class="list-group-item p-3 d-flex justify-content-between align-items-center">
+    <div class="loader loader-default"></div>
+    <div class="loader loader-default" v-bind:class="{'is-active': isLoader }" data-text></div>
+    <ul class="list-group list-group-flush text-dark">
+      <li v-for="todo in todos" :key="todo.index" class="list-group-item p-3 d-flex justify-content-between align-items-center">
           <div class="d-flex">
               <div class="align-item-center">
                 {{ todo.content }}
               </div>
           </div>
           <div class="btn-option-div">
-            <button class="btn btn-outline-info" v-on:click="editTodo(todo,index)">Edit</button>
-            <button class="btn btn-outline-success" v-on:click="completedTodo(index,todo)">Complete</button>
+            <button class="btn btn-outline-info" v-on:click="editTodo(todo)">Edit</button>
+            <button class="btn btn-outline-success" v-on:click="completedTodo(todo)">Complete</button>
             <button class="btn btn-outline-danger" v-on:click="deleteTodo(todo)">Remove</button>
           </div>
       </li>
     </ul>
-    </div>
-    <h2>Completed</h2>
+    <h2 class=" my-3">Completed</h2>
     <ul class="completed-list">
       <li v-for="(todo,index) in completedTodos" :key="index">{{ todo.content }}</li>
     </ul>
@@ -42,13 +40,13 @@
 <script>
 /* eslint-disable */
 import axios  from 'axios'
+
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmZjNkNzQ4LTJmZDktNGRiZC04NTIyLWYwNjQwOGQ5ODA5NyIsImlhdCI6MTYxNjA1MzU3MSwiZXhwIjoxNjE2NjU4MzcxfQ.lHONQimlOnFDreJMw7xWJTp-wcHpBh-xSjpuymYC2XY'
 export default {
   name: 'TodoApp',
   data () {
     return {
       selectedID: null,
-      selectedIndex: null,
       isEditing: false,
       isLoader: false,
       todo: '',
@@ -59,11 +57,11 @@ export default {
   
   created() {
     this.getAllTodo()
-    this.isLoader = true
   },
 
   methods: {
     async getAllTodo() {
+      this.isLoader = true
       try {
         const response = await axios
         .get("https://todo-mvc-api-typeorm.herokuapp.com/api/todos",{
@@ -73,12 +71,14 @@ export default {
         })
         this.todos = response.data
       } catch (e) {
+        this.isLoader = false
         console.error(e)
       }
       this.isLoader = false
     },
 
     async storeTodo(){
+      this.isLoader = true
       if (!this.todo) {
         alert('Không được để trống!')
       } else{
@@ -93,9 +93,9 @@ export default {
       })
       .then(() => {
         this.todos = this.getAllTodo()
-        this.isLoader = true
       })
       .catch((error) => {
+        this.isLoader = false
         console.log(error)
       })
         this.todo = ''  
@@ -103,7 +103,7 @@ export default {
       }
     },
 
-    async editTodo(todo,index){
+    async editTodo(todo){
       await axios
       .get(`https://todo-mvc-api-typeorm.herokuapp.com/api/todos/${todo.id}`,
       {
@@ -114,7 +114,7 @@ export default {
       .then(()=> {
         this.todo = todo.content
         this.selectedID = todo.id
-        this.selectedIndex = index
+        console.log(todo.id)
         this.isEditing = true
         return this.selectedID
       })
@@ -124,6 +124,7 @@ export default {
     },
 
     async updateTodo(){
+      this.isLoader = true
       await axios.put(`https://todo-mvc-api-typeorm.herokuapp.com/api/todos/${this.selectedID}`,
       {
         status: 'active',
@@ -140,11 +141,10 @@ export default {
         }
       })
       .catch(function(error) {
+        this.isLoader = false
         console.log(error)
       })
-        this.selectedIndex = null
         this.isEditing = false
-        this.isLoader = true
         this.todo = ''
     },
 
@@ -153,9 +153,8 @@ export default {
       this.todo = ''
     },
 
-    completedTodo(index, todo) {
+    completedTodo(todo) {
       this.todo = todo
-      this.selectedID = index
       this.completedTodos.push(this.todo)
       this.todos = this.deleteTodo(todo)
       this.todo = ''
@@ -163,6 +162,7 @@ export default {
     },
     
     async deleteTodo(todo){
+      this.isLoader = true
       await axios.delete(`https://todo-mvc-api-typeorm.herokuapp.com/api/todos/${todo.id}`,
       {
       headers: {
@@ -173,9 +173,9 @@ export default {
         this.todos = this.getAllTodo()
       })
       .catch(function(error) {
+        this.isLoader = false
         console.log(error)
       })
-      this.isLoader = true
     },
   }
 }
