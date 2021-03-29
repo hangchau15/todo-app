@@ -41,7 +41,7 @@
 /* eslint-disable */
 import axios  from 'axios'
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmZjNkNzQ4LTJmZDktNGRiZC04NTIyLWYwNjQwOGQ5ODA5NyIsImlhdCI6MTYxNjA1MzU3MSwiZXhwIjoxNjE2NjU4MzcxfQ.lHONQimlOnFDreJMw7xWJTp-wcHpBh-xSjpuymYC2XY'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmZjNkNzQ4LTJmZDktNGRiZC04NTIyLWYwNjQwOGQ5ODA5NyIsImlhdCI6MTYxNjk4MjE5NywiZXhwIjoxNjE3NTg2OTk3fQ.mdcDC-azGX6wOp5pG9IK_IE-GM_gaYtVyeJHg1jAr3I'
 export default {
   name: 'TodoApp',
   data () {

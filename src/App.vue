@@ -1,14 +1,15 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
-    <!-- <h1> Todo list</h1> -->
-    <router-view/>
+    <login></login>
   </div>
 </template>
 
 <script>
+// import TodoApp from './components/TodoApp'
+import Login from './components/Login'
 export default {
-  name: 'App'
+  name: 'App',
+  components: { Login }
 }
 </script>
 
