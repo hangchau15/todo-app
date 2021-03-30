@@ -8,26 +8,13 @@
             <label>Password</label>
             <input v-model="passwordInput" class="form-control" type="password" placeholder="Password"/>
         </div>
-        <button class="btn btn-success" type="submit" @click="login">Login</button>
-        <br/>
-
-        <div class="container">
-            <h3>Todo list</h3>
-            <ul class="list-group list-group-flush text-dark">
-                <li v-for="todo in getTodos" :key="todo.index" class="list-group-item p-3 d-flex justify-content-between align-items-center">
-                    <div class="d-flex">
-                        <div class="align-item-center">
-                            {{ todo.content }}
-                        </div>
-                    </div>
-                    <div class="btn-option-div">
-                        <button class="btn btn-outline-info">Edit</button>
-                        <button class="btn btn-outline-success">Complete</button>
-                        <button class="btn btn-outline-danger">Remove</button>
-                    </div>
-                </li>
-            </ul>
+        <div class="d-flex align-items-center justify-content-center">
+            <div class="justify-content-between">
+                <button class="btn btn-success" type="submit" @click="login">Login</button>
+                <button class="btn btn-success" type="submit" @click="register">Register</button>
+            </div>
         </div>
+        <br/>
     </div>
 </template>
 
@@ -42,9 +29,6 @@
                 passwordInput: ''
             }
         },
-        created() {
-            this.$store.dispatch('getTodos')
-        },
         methods: {
             async login() {
                 try {
@@ -52,13 +36,22 @@
                     username: this.usernameInput,
                     password: this.passwordInput,
                     })
+                    // this.$router.push({ name: 'todo'})
                     console.log('Login Success')
                 } catch (error) {
                     console.log(error)
                 }
             },
-            getTodos() {
-                return this.$store.states.todos
+            async register() {
+                try {
+                    const response = await this.$store.dispatch('register', {
+                    username: this.usernameInput,
+                    password: this.passwordInput,
+                    })
+                    console.log('Registed')
+                } catch (error) {
+                    console.log(error)
+                }
             }
         }
     }

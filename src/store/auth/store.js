@@ -12,7 +12,13 @@ axios.defaults.baseURL = 'https://todo-mvc-api-typeorm.herokuapp.com'
 export const store= new Vuex.Store({
     state: {
         // token: localStorage.getItem('access_token') || null
-        token: ''
+        token: '',
+        todos: [],
+        completedTodos: [],
+        todoInput: null,
+        selectedID: null,
+        isEditing: false,
+        loading: false
     },
     getters: getters,
     mutations: mutations,

@@ -9,7 +9,7 @@ import getters from './getters'
 Vue.use(Vuex)
 axios.defaults.baseURL = 'https://todo-mvc-api-typeorm.herokuapp.com'
 
-export const store_todo = new Vuex.Store({
+export const storeTodo = new Vuex.Store({
     state: {
         todos: []
     },

@@ -1,15 +1,19 @@
 <template>
   <div id="app">
-    <login></login>
+    <!--<login></login> !-->
+    <!-- <dashboard></dashboard> !-->
+    <todo-app></todo-app>
   </div>
 </template>
 
 <script>
-// import TodoApp from './components/TodoApp'
-import Login from './components/Login'
+import TodoApp from './components/todo_app/TodoApp.vue'
+import Login from './components/Login.vue'
+// import Dashboard from './components/todo_app/Dashboard.vue'
+
 export default {
   name: 'App',
-  components: { Login }
+  components: { Login, TodoApp }
 }
 </script>
 
