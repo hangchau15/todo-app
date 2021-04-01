@@ -35,7 +35,7 @@
                     username: this.usernameInput,
                     password: this.passwordInput,
                     })
-                    console.log('Registed')
+                this.$router.push({ name: 'login'})
                 } catch (error) {
                     console.log(error)
                 }

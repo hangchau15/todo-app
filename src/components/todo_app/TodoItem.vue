@@ -8,8 +8,7 @@
                     </div>
                 </div>
                 <div class="btn-option-div">
-                    <button class="btn btn-outline-info" @click="editTodo">Edit</button>
-                    <button class="btn btn-outline-success" @click="completedTodo">Complete</button>
+                    <button class="btn btn-outline-info" @click="editTodo(todo)">Edit</button>
                     <button class="btn btn-outline-danger" @click="deleteTodo">Remove</button>
                 </div>
             </li>
@@ -27,17 +26,16 @@ export default {
             default: () => {}
         },
     },
-    
     methods: {
-        editTodo() {
-            this.$store.dispatch('editTodo')
+        editTodo(todo) {
+            this.selectedID = todo.id
+            this.isEditting = true
+            console.log(this.isEditting)
+            console.log(todo.id)
         },
         deleteTodo() {
             this.$store.dispatch('deleteTodo', this.todo)
         },
-        completedTodo() {
-            this.$store.dispatch('completedTodo', this.todo)
-        }
     }
 }
 </script>

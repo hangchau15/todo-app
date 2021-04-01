@@ -1,12 +1,13 @@
 <template>
   <div id="app">
     <!--<login></login>!-->
-    <Dashboard></Dashboard>
     <!--<todo-app></todo-app>!-->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+/* eslint-disable */
 import TodoApp from './components/todo_app/TodoApp.vue'
 import Login from './components/Login.vue'
 import Dashboard from './components/Dashboard.vue'

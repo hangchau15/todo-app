@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import VueAxios from 'vue-axios'
 import axios from 'axios'
-// import TodoApp from '@/components/todo_app/TodoApp'
+import TodoApp from '@/components/todo_app/TodoApp'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Dashboard from '@/components/Dashboard'
@@ -17,15 +17,14 @@ Vue.use(Router)
       name: 'dashbroad',
       component: Dashboard
     },
-    // { 
-    //   path: '/todo', 
-    //   name: 'todo',
-    //   component: TodoApp,
-    //   meta: {
-        
-    //     requiresAuth: true,
-    //   }, 
-    // },
+    { 
+      path: '/todo', 
+      name: 'todo',
+      component: TodoApp,
+      meta: {
+        requiresAuth: true,
+      }, 
+    },
     { 
       path: '/login', 
       name: 'login',

@@ -10,7 +10,7 @@
         </div>
         <div class="d-flex align-items-center justify-content-center">
             <div class="justify-content-between">
-                <button class="btn btn-success" type="submit" @click="login">Login</button>
+              <button class="btn btn-success" type="submit" @click="login">Login</button>
             </div>
         </div>
         <br/>
@@ -35,8 +35,7 @@
                     username: this.usernameInput,
                     password: this.passwordInput,
                     })
-                    // this.$router.push({ name: 'todo'})
-                    console.log('Login Success')
+                    this.$router.push({ name: 'todo'})
                 } catch (error) {
                     console.log(error)
                 }

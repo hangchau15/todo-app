@@ -1,6 +1,5 @@
 /* eslint-disable */
 import axios from 'axios'
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmZjNkNzQ4LTJmZDktNGRiZC04NTIyLWYwNjQwOGQ5ODA5NyIsImlhdCI6MTYxNzA4OTUyNywiZXhwIjoxNjE3Njk0MzI3fQ.N5ZsRL8oKKuqE1jukPrzIJbCP0bJM839qgML9Mn9Clk"
 
 export default {
   async register({ commit }, data) {
@@ -23,13 +22,15 @@ export default {
           password: data.password,
         })
         const token = response.data.token
+        localStorage.setItem('access_token', token)
         commit('login', token)
       } catch (error) {
+        commit('login')
         throw error
       }
   },
 
-  logout(context) {
+  async logout(context) {
     axios.defaults.headers.common['Authorization'] =
       'Bearer ' + context.state.token
     if (context.getters.loggedIn) {
@@ -40,12 +41,9 @@ export default {
 
   async getAllTodos(context) {
     try {
-      const response = await axios
-      .get("https://todo-mvc-api-typeorm.herokuapp.com/api/todos",{
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      axios.defaults.headers.common['Authorization'] =
+      'Bearer ' + context.state.token
+      const response = await axios.get('/api/todos')
       context.commit('getAllTodos', response.data)
     } catch (error) {
       console.log(error)
@@ -55,13 +53,8 @@ export default {
   async storeTodo({ commit }, todo) {
     try {
       const response = await axios
-      .post("https://todo-mvc-api-typeorm.herokuapp.com/api/todos",{
+      .post('api/todos',{
         content: todo.content
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
       })
       commit('storeTodo', response.data)
     } catch (error) {
@@ -69,32 +62,9 @@ export default {
     }
   },
 
-   editTodo(todo){
-     console.log(todo.id)
-    // try {
-    //   const response = await axios
-    //   .get(`https://todo-mvc-api-typeorm.herokuapp.com/api/todos/`+ todo.id,{
-    //     headers: {
-    //       'Authorization': `Bearer ${token}`
-    //     }
-    //   })
-    //   commit('editTodo', response.data)
-      
-    // } catch (error) {
-    //   console.log(error)
-    // }
-  },
-
-    completedTodo({ commit }, todo) {
-      
-      commit('deleteTodo',todo)
-      this.todo = ''
-      this.isLoader = true
-    },
-
   async deleteTodo({ commit }, todo) {
-    try{
-      const response = await axios.delete(`https://todo-mvc-api-typeorm.herokuapp.com/api/todos/${todo.id}`)
+    try {
+      await axios.delete(`api/todos/${todo.id}`)
       commit('deleteTodo', todo)
     } catch (error) {
       console.log(error)
