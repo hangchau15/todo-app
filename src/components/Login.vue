@@ -1,48 +1,75 @@
 <template>
-    <div class=" container my-3">
-        <div class="my-3">
-            <label>Username</label>
-            <input v-model="usernameInput" class="form-control" type="text" placeholder="Username"/>
+  <div
+    class="container col-md-6 d-flex flex-column justify-content-center max-width"
+  >
+    <div class="card p-3">
+      <div class="my-3">
+        <label>Username</label>
+        <input
+          v-model="usernameInput"
+          class="form-control"
+          type="text"
+          placeholder="Username"
+        />
+      </div>
+      <div class="my-3">
+        <label>Password</label>
+        <input
+          v-model="passwordInput"
+          class="form-control"
+          type="password"
+          placeholder="Password"
+        />
+      </div>
+      <div class="d-flex align-items-center justify-content-center">
+        <div class="justify-content-between">
+          <button class="btn btn-success" type="submit" @click="login">
+            Login
+          </button>
         </div>
-        <div class="my-3">
-            <label>Password</label>
-            <input v-model="passwordInput" class="form-control" type="password" placeholder="Password"/>
-        </div>
-        <div class="d-flex align-items-center justify-content-center">
-            <div class="justify-content-between">
-              <button class="btn btn-success" type="submit" @click="login">Login</button>
-            </div>
-        </div>
-        <br/>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-/* eslint-disable */
+export default {
+  name: 'Login',
 
-    export default {
-        name: 'Login',
-        data() {
-            return {
-                usernameInput: '',
-                passwordInput: ''
-            }
-        },
-        methods: {
-            async login() {
-                try {
-                    const response = await this.$store.dispatch('login', {
-                    username: this.usernameInput,
-                    password: this.passwordInput,
-                    })
-                    this.$router.push({ name: 'todo'})
-                } catch (error) {
-                    console.log(error)
-                }
-            },
-        }
+  data () {
+    return {
+      usernameInput: '',
+      passwordInput: '',
+      errors: []
     }
-</script>
+  },
 
-<style>
-</style>
+  methods: {
+    // validate() {
+    //   if (this.usernameInput && this.usernameInput) {
+    //     login()
+    //     return true
+    //   }
+    //   this.errors = []
+    //   if (!this.usernameInput) {
+    //     this.errors.push('Username required')
+    //   }
+    //   if (!this.passwordInput) {
+    //     this.errors.push('Password required')
+    //   }
+    // },
+
+    async login () {
+      try {
+        await this.$store.dispatch('login', {
+          username: this.usernameInput,
+          password: this.passwordInput
+        })
+        this.$router.push({ name: 'todo' })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+}
+</script>

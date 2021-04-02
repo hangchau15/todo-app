@@ -1,27 +1,31 @@
 <template>
-    <div class="container">
-        <ul class="list-group list-group-flush text-dark">
-            <todo-item v-for="todo in getAllTodos" :key="todo.index" v-bind:todo="todo"></todo-item>
-        </ul>
-    </div>
+  <div class="container">
+    <ul class="list-group list-group-flush text-dark">
+      <todo-item
+        v-for="todo in getAllTodos"
+        :key="todo.index"
+        v-bind:todo="todo"
+      ></todo-item>
+    </ul>
+  </div>
 </template>
+
 <script>
-/* eslint-disable */
 import TodoItem from './TodoItem.vue'
 
 export default {
-    name: 'TodoList',
-    components: { TodoItem },
+  name: 'TodoList',
 
-    created() {
-        this.$store.dispatch('getAllTodos')
-    },
+  components: { TodoItem },
 
-    computed: {
-        getAllTodos() {
-            return this.$store.state.todos
-        },
-    },
+  created () {
+    this.$store.dispatch('getAllTodos')
+  },
+
+  computed: {
+    getAllTodos () {
+      return this.$store.state.todos
+    }
+  }
 }
 </script>
-<style scoped></style>

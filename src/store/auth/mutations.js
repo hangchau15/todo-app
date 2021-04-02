@@ -12,7 +12,6 @@ export default {
     },
     logout(state) {
         state.token = null
-        state.todos = []
     },
     loading(state) {
         state.loading = true
@@ -27,16 +26,9 @@ export default {
           content: todo.content,
         })
     },
-    editTodo(state, todo) {
-        state.todoInput = todo.content
-        state.selectedID = todo.id
-        console.log(todo.id)
-        state.isEditing = true
-        return state.selectedID
-    },
-    completedTodo(state, todo) {
-        // state.todo = todo
-        state.completedTodos.push(todo)
+    updateTodo(state, todo) {
+        const index = state.todos.findIndex((t) => t.id == todo.id)
+        state.todos.splice(index, 1, todo)
     },
     deleteTodo(state, todo) {
         const index = state.todos.indexOf(todo)

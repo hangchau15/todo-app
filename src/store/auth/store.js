@@ -14,7 +14,6 @@ export const store= new Vuex.Store({
         token: localStorage.getItem('access_token') || null,
         todos: [],
         todoInput: null,
-        selectedID: null,
         isEditting: false,
         loading: false,
     },

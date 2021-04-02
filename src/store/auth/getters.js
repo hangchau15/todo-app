@@ -1,9 +1,13 @@
-/* eslint-disable */
 export default {
-    loggedIn: (state) => {
-        return state.token !== null
-    },
-    selectedId: (state) => {
-        return state.selectedId
-    }
+  authenticated: (state) => {
+    return state.token !== null
+  },
+
+  selectedId: (state) => {
+    return state.selectedId
+  },
+
+  isEditting: (state) => {
+    return 'status' + state.isEditting
+  }
 }
