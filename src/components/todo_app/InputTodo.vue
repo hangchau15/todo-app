@@ -28,14 +28,20 @@ export default {
   },
 
   methods: {
-    storeTodo () {
+    async storeTodo () {
       if (!this.todoInput) {
-        return
+        alert('Content required')
+      } else {
+        await this.$store.dispatch('storeTodo', {
+          content: this.todoInput
+        })
+        this.getAllTodos()
+        this.todoInput = null
       }
-      this.$store.dispatch('storeTodo', {
-        content: this.todoInput
-      })
-      this.todoInput = null
+    },
+
+    getAllTodos () {
+      this.$store.dispatch('getAllTodos')
     }
   }
 }

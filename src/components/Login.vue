@@ -3,15 +3,16 @@
     class="container col-md-6 d-flex flex-column justify-content-center max-width"
   >
     <div class="card p-3">
-      <div class="my-3">
+      <div class="form-group my-3" :class="{ 'form-group--error': $v.usernameInput.$error }">
         <label>Username</label>
         <input
-          v-model="usernameInput"
+          v-model.trim="$v.usernameInput.$model"
           class="form-control"
           type="text"
           placeholder="Username"
         />
       </div>
+      <div class="error" v-if="!$v.usernameInput.required">Username is required</div>
       <div class="my-3">
         <label>Password</label>
         <input
@@ -33,6 +34,7 @@
 </template>
 
 <script>
+import { required } from 'vuelidate'
 export default {
   name: 'Login',
 
@@ -44,13 +46,21 @@ export default {
     }
   },
 
+  validations: {
+    usernameInput: {
+      required
+    },
+    passwordInput: {
+      required
+    }
+  },
+
   methods: {
-    // validate() {
+    // validate () {
     //   if (this.usernameInput && this.usernameInput) {
-    //     login()
+    //     this.login()
     //     return true
     //   }
-    //   this.errors = []
     //   if (!this.usernameInput) {
     //     this.errors.push('Username required')
     //   }
@@ -65,6 +75,7 @@ export default {
           username: this.usernameInput,
           password: this.passwordInput
         })
+        alert('Dang nhap thanh cong')
         this.$router.push({ name: 'todo' })
       } catch (error) {
         console.log(error)

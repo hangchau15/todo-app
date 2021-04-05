@@ -58,19 +58,23 @@ export default {
       this.todoInput = todo.content
     },
 
-    deleteTodo () {
-      this.$store.dispatch('deleteTodo', this.todo)
+    async deleteTodo () {
+      await this.$store.dispatch('deleteTodo', this.todo)
+      this.getAllTodos()
     },
 
     cancel () {
       this.isEditting = false
       this.todoInput = ''
     },
-    updateTodo () {
-      this.$store.dispatch('updateTodo', this.todo)
+    async updateTodo () {
+      await this.$store.dispatch('updateTodo', this.todo)
       this.isEditting = false
+    },
+
+    getAllTodos () {
+      this.$store.dispatch('getAllTodos')
     }
   }
 }
 </script>
-<style scoped></style>

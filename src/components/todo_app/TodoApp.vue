@@ -34,16 +34,6 @@ export default {
     }
   },
 
-  created () {
-    this.$store.dispatch('getAllTodos')
-  },
-
-  computed: {
-    getAllTodos () {
-      return this.$store.state.todos
-    }
-  },
-
   methods: {
     logout () {
       this.$store.dispatch('logout')

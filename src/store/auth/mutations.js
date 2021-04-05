@@ -1,5 +1,5 @@
 /* eslint-disable */
-
+import Vue from 'vue'
 export default {
     register(state){
         state.loading = false
@@ -17,21 +17,21 @@ export default {
         state.loading = true
     },
     getAllTodos(state, todos) {
-        state.todos = todos.map((todo) => {
-          return {...todo}
-        })
+        state.todos = todos.map(todo => {
+            return {...todo}
+        }) 
     },
     storeTodo(state, todo) {
-        state.todos.push({
-          content: todo.content,
-        })
+        Vue.set(todo, todo.content, state.todoInput)
     },
     updateTodo(state, todo) {
-        const index = state.todos.findIndex((t) => t.id == todo.id)
-        state.todos.splice(index, 1, todo)
+        const index = state.todos.findIndex(item => {
+            return (todo.id === item.id)
+        })
+        Vue.set(todo, index, state.todoInput)
     },
     deleteTodo(state, todo) {
         const index = state.todos.indexOf(todo)
-        state.todos.splice(index, 1)
+        Vue.set(todo, index)
     },
 }
