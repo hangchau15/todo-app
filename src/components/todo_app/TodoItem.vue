@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <ul class="list-group list-group-flush text-dark">
+    <ul class="list-group list-group-flush text-white">
       <li class="p-3 d-flex justify-content-between align-items-center">
         <div class="d-flex">
           <div v-if="!isEditting" class="align-item-center">
@@ -73,6 +73,7 @@ export default {
     },
 
     getAllTodos () {
+      this.$store.state.todos = []
       this.$store.dispatch('getAllTodos')
     }
   }

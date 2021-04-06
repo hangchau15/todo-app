@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    <!--<login></login>!-->
-    <!--<todo-app></todo-app>!-->
     <router-view></router-view>
   </div>
 </template>
@@ -14,7 +12,21 @@ import Dashboard from './components/Dashboard.vue'
 
 export default {
   name: 'App',
-  components: {  Dashboard }
+
+  components: {  Dashboard },
+
+  created () {
+    this.checkAuth()
+  },
+
+   methods: {
+    checkAuth () {
+      const check = this.$store.getters.authenticated
+      if (!check) {
+        this.$router.push({ name: 'dashbroad' })
+      }
+    }
+   }
 }
 </script>
 

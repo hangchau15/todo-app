@@ -41,6 +41,7 @@ export default {
     },
 
     getAllTodos () {
+      this.$store.state.todos = []
       this.$store.dispatch('getAllTodos')
     }
   }

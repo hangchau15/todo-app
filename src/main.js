@@ -4,6 +4,7 @@
 /* eslint-disable no-new */
 import Vue from 'vue'
 import App from './App'
+import Vuelidate from 'vuelidate'
 import routes from './router/index'
 import { store } from './store/auth/store'
 import { BootstrapVue } from 'bootstrap-vue'
@@ -15,6 +16,7 @@ import VueRouter from 'vue-router'
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
+Vue.use(Vuelidate)
 
 const router = new VueRouter({
   routes, 

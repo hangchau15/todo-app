@@ -5,15 +5,9 @@
       class=" my-3 btn btn-outline-danger bg-danger text-white"
       @click="logout"
     >
-      Logout
+      Log out
     </button>
     <input-todo></input-todo>
-    <div class="loader loader-default"></div>
-    <div
-      class="loader loader-default"
-      v-bind:class="{ 'is-active': isLoader }"
-      data-text
-    ></div>
     <h2>Todos List</h2>
     <todo-list></todo-list>
   </div>
@@ -27,12 +21,6 @@ export default {
   name: 'TodoApp',
 
   components: { InputTodo, TodoList },
-
-  data () {
-    return {
-      isLoader: false
-    }
-  },
 
   methods: {
     logout () {

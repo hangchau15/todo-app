@@ -3,11 +3,7 @@ export default {
     return state.token !== null
   },
 
-  selectedId: (state) => {
-    return state.selectedId
-  },
-
   isEditting: (state) => {
-    return 'status' + state.isEditting
+    return state.isEditting
   }
 }

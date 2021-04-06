@@ -1,49 +1,65 @@
 <template>
-  <div
-    class="container col-md-6 d-flex flex-column justify-content-center max-width"
-  >
-    <div class="card p-3">
-      <div class="my-3">
-        <label>Username</label>
-        <input
-          v-model="usernameInput"
-          class="form-control"
-          type="text"
-          placeholder="Username"
-        />
-      </div>
-      <div class="my-3">
-        <label>Password</label>
-        <input
-          v-model="passwordInput"
-          class="form-control"
-          type="password"
-          placeholder="Password"
-        />
-      </div>
-      <div class="d-flex align-items-center justify-content-center">
-        <div class="justify-content-between">
-          <button class="btn btn-success" type="submit" @click="register">
-            Register
-          </button>
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <div>
+                        <h2>Register</h2>
+                        <form @submit.prevent="handleSubmit">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" v-model="usernameInput" name="username" class="form-control" :class="{ 'is-invalid': submitted && $v.usernameInput.$error }" />
+                                <div v-if="submitted && !$v.usernameInput.required" class="invalid-feedback">Userame is required</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" v-model="passwordInput" name="password" class="form-control" :class="{ 'is-invalid': submitted && $v.passwordInput.$error }" />
+                                <div v-if="submitted && $v.passwordInput.$error" class="invalid-feedback">
+                                    <span v-if="!$v.passwordInput.required">Password is required</span>
+                                    <span v-if="!$v.passwordInput.minLength">Password must be at least 6 characters</span>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex justify-content-center">
+                                <button class="btn btn-primary">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
+import { required, minLength } from 'vuelidate/lib/validators'
+
 export default {
   name: 'Register',
 
   data () {
     return {
       usernameInput: '',
-      passwordInput: ''
+      passwordInput: '',
+      submitted: false
     }
   },
 
+  validations: {
+    usernameInput: { required },
+    passwordInput: { required, minLength: minLength(6) }
+  },
+
   methods: {
+    handleSubmit (e) {
+      this.submitted = true
+      // stop here if form is invalid
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }
+      console.log('success')
+    },
+
     async register () {
       try {
         await this.$store.dispatch('register', {
