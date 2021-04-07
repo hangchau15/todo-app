@@ -1,33 +1,23 @@
 <template>
-    <div class="jumbotron">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 offset-sm-2">
-                    <div>
-                        <h2>Register</h2>
-                        <form @submit.prevent="handleSubmit">
-                            <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" v-model="usernameInput" name="username" class="form-control" :class="{ 'is-invalid': submitted && $v.usernameInput.$error }" />
-                                <div v-if="submitted && !$v.usernameInput.required" class="invalid-feedback">Userame is required</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" v-model="passwordInput" name="password" class="form-control" :class="{ 'is-invalid': submitted && $v.passwordInput.$error }" />
-                                <div v-if="submitted && $v.passwordInput.$error" class="invalid-feedback">
-                                    <span v-if="!$v.passwordInput.required">Password is required</span>
-                                    <span v-if="!$v.passwordInput.minLength">Password must be at least 6 characters</span>
-                                </div>
-                            </div>
-                            <div class="form-group d-flex justify-content-center">
-                                <button class="btn btn-primary">Register</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+  <div class="container card bg-light p-5 d-flex justify-content-center align-items-center flex-column">
+    <h4 class="text-center mb-4">Create an account</h4>
+    <form @submit.prevent="handleSubmit">
+        <div class="form-group">
+          <input type="text" v-model="usernameInput" name="username" class="form-control" :class="{ 'is-invalid': submitted && $v.usernameInput.$error }" placeholder="Username"/>
+          <div v-if="submitted && !$v.usernameInput.required" class="invalid-feedback">Userame is required</div>
+        </div>
+        <div class="form-group">
+            <input type="password" v-model="passwordInput" @keyup.enter="handleSubmit()" name="password" class="form-control" :class="{ 'is-invalid': submitted && $v.passwordInput.$error }" placeholder="Password"/>
+            <div v-if="submitted && $v.passwordInput.$error" class="invalid-feedback">
+              <span v-if="!$v.passwordInput.required">Password is required</span>
+              <span v-if="!$v.passwordInput.minLength">Password must be at least 6 characters</span>
             </div>
         </div>
-    </div>
+        <div class="form-group d-flex justify-content-center">
+            <button class="btn btn-primary w-100">Register</button>
+        </div>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -57,7 +47,7 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-      console.log('success')
+      this.register()
     },
 
     async register () {
@@ -66,7 +56,20 @@ export default {
           username: this.usernameInput,
           password: this.passwordInput
         })
-        this.$router.push({ name: 'login' })
+        alert('Register successed')
+        this.login()
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    async login () {
+      try {
+        await this.$store.dispatch('login', {
+          username: this.usernameInput,
+          password: this.passwordInput
+        })
+        this.$router.push({ name: 'todo' })
       } catch (error) {
         console.log(error)
       }
@@ -74,3 +77,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .form-control, .btn {
+    border-radius: 25px;
+    height: 48px
+  }
+</style>

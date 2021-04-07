@@ -5,6 +5,7 @@
         class="col-8 p-3 form-control mr-sm-2"
         type="text"
         v-model="todoInput"
+        @keyup.enter="storeTodo()"
         placeholder="Enter new todo"
       />
       <button

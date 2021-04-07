@@ -1,23 +1,25 @@
 /* eslint-disable */
 import Vue from 'vue'
+
 export default {
     register(state){
       state.loading = false
     },
 
     login(state, token) {
-			if (token) {
-				state.token = token
-			}
-			else {
-				alert('Login failed')
-				state.loading = false
-			}
-			state.loading = false
+        if (token) {
+            state.token = token
+        }
+        else {
+            alert('Login failed')
+            state.loading = false
+        }
+        state.loading = false
     },
 
     logout(state) {
         state.token = null
+        state.todos = null
     },
 
     loading(state) {
@@ -25,10 +27,10 @@ export default {
     },
 
     getAllTodos(state, todo) {
-			const arr = todo.items
-			arr.forEach(element => {
-				state.todos.push(element)
-			})
+        const arr = todo.items
+        arr.forEach(element => {
+            state.todos.push(element)
+        })
     },
 
     storeTodo(state, todo) {

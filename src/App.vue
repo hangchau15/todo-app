@@ -13,20 +13,7 @@ import Dashboard from './components/Dashboard.vue'
 export default {
   name: 'App',
 
-  components: {  Dashboard },
-
-  created () {
-    this.checkAuth()
-  },
-
-   methods: {
-    checkAuth () {
-      const check = this.$store.getters.authenticated
-      if (!check) {
-        this.$router.push({ name: 'dashbroad' })
-      }
-    }
-   }
+  components: {  Dashboard }
 }
 </script>
 

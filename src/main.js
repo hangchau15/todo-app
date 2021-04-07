@@ -23,6 +23,28 @@ const router = new VueRouter({
   mode: 'history'
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!store.getters.authenticated) {
+      next({
+        name: 'dashbroad',
+      })
+    } else {
+      next()
+    }
+  } else if (to.matched.some((record) => record.meta.requiresVisitor)) {
+    if (store.getters.authenticated) {
+      next({
+        name: 'todo',
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+
 new Vue({
   store: store,
   router,

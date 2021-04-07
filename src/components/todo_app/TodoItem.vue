@@ -7,7 +7,7 @@
             {{ todo.content }}
           </div>
           <div v-else class="d-flex">
-            <input class="form-control" type="text" v-model="todo.content" />
+            <input class="form-control" type="text" v-model="todo.content" @keyup.enter="updateTodo()" />
             <div class="d-flex">
               <button class="btn btn-outline-success" @click="updateTodo">
                 Ok
