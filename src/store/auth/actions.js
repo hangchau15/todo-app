@@ -1,7 +1,8 @@
+/* eslint-disable */
 import axios from 'axios'
 
 export default {
-  async register ({ commit }, data) {
+  async register({ commit }, data) {
     try {
       await axios.post('/auth/register', {
         username: data.username,
@@ -14,7 +15,7 @@ export default {
     }
   },
 
-  async login ({ commit }, data) {
+  async login({ commit }, data) {
     try {
       const response = await axios.post('/auth/login', {
         username: data.username,
@@ -29,7 +30,7 @@ export default {
     }
   },
 
-  async logout (context) {
+  async logout(context) {
     axios.defaults.headers.common['Authorization'] =
       'Bearer ' + context.state.token
     if (context.getters.authenticated) {
@@ -38,10 +39,10 @@ export default {
     }
   },
 
-  async getAllTodos (context) {
+  async getAllTodos(context) {
     try {
       axios.defaults.headers.common['Authorization'] =
-      'Bearer ' + context.state.token
+        'Bearer ' + context.state.token
       const response = await axios.get('/api/todos')
       context.commit('getAllTodos', response.data)
     } catch (error) {
@@ -49,31 +50,29 @@ export default {
     }
   },
 
-  async storeTodo ({ commit }, todo) {
+  async storeTodo({ commit }, todo) {
     try {
-      const response = await axios
-        .post('api/todos', {
-          content: todo.content
-        })
+      const response = await axios.post('api/todos', {
+        content: todo.content
+      })
       commit('storeTodo', response.data)
     } catch (error) {
       console.log(error)
     }
   },
 
-  async updateTodo ({ commit }, todo) {
+  async updateTodo({ commit }, todo) {
     try {
-      const response = await axios
-        .put(`api/todos/${todo.id}`, {
-          content: todo.content
-        })
+      const response = await axios.put(`api/todos/${todo.id}`, {
+        content: todo.content
+      })
       commit('updateTodo', response.data)
     } catch (error) {
       console.log(error)
     }
   },
 
-  async deleteTodo ({ commit }, todo) {
+  async deleteTodo({ commit }, todo) {
     try {
       await axios.delete(`api/todos/${todo.id}`)
       commit('deleteTodo', todo)

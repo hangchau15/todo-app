@@ -11,22 +11,21 @@
 </template>
 
 <script>
+/* eslint-disable */
 import TodoItem from './TodoItem.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'TodoList',
 
   components: { TodoItem },
 
-  created () {
-    this.$store.state.todos = []
-    this.$store.dispatch('getAllTodos')
+  computed: {
+    ...mapGetters(['getAllTodos'])
   },
 
-  computed: {
-    getAllTodos () {
-      return this.$store.state.todos
-    }
+  mounted() {
+    this.$store.dispatch('getAllTodos')
   }
 }
 </script>

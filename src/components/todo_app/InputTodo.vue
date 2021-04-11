@@ -24,7 +24,7 @@ export default {
 
   data () {
     return {
-      todoInput: this.$store.state.todoInput
+      todoInput: ''
     }
   },
 
@@ -36,14 +36,8 @@ export default {
         await this.$store.dispatch('storeTodo', {
           content: this.todoInput
         })
-        this.getAllTodos()
-        this.todoInput = null
+        this.todoInput = ''
       }
-    },
-
-    getAllTodos () {
-      this.$store.state.todos = []
-      this.$store.dispatch('getAllTodos')
     }
   }
 }

@@ -60,7 +60,6 @@ export default {
 
     async deleteTodo () {
       await this.$store.dispatch('deleteTodo', this.todo)
-      this.getAllTodos()
     },
 
     cancel () {
@@ -70,11 +69,6 @@ export default {
     async updateTodo () {
       await this.$store.dispatch('updateTodo', this.todo)
       this.isEditting = false
-    },
-
-    getAllTodos () {
-      this.$store.state.todos = []
-      this.$store.dispatch('getAllTodos')
     }
   }
 }

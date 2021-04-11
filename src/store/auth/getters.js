@@ -1,9 +1,13 @@
 export default {
-  authenticated: (state) => {
+  authenticated: state => {
     return state.token !== null
   },
 
-  isEditting: (state) => {
+  isEditting: state => {
     return state.isEditting
+  },
+
+  getAllTodos: state => {
+    return state.todos
   }
 }
