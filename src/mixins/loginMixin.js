@@ -1,6 +1,13 @@
 export default {
   methods: {
-    async login () {
+    data() {
+      return {
+        loading: false,
+        isErrorLogin: false
+      }
+    },
+
+    async login() {
       try {
         await this.$store.dispatch('login', {
           username: this.usernameInput,
@@ -8,6 +15,8 @@ export default {
         })
         this.$router.push({ name: 'todo' })
       } catch (error) {
+        this.loading = false
+        this.isErrorLogin = true
         console.log(error)
       }
     }
