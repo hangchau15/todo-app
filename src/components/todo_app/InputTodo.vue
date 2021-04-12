@@ -1,24 +1,32 @@
 <template>
   <div>
     <div class="row p-3 my-3 d-flex">
-      <input
-        class="col-8 p-3 form-control mr-sm-2"
-        type="text"
-        v-model="todoInput"
-        @keyup.enter="storeTodo()"
-        placeholder="Enter new todo"
-      />
-      <button
-        class="btn btn-outline-primary bg-primary text-white"
-        @click="storeTodo"
-      >
-        Add
-      </button>
+      <div class="form-group">
+        <input
+          type="text"
+          v-model="todoInput"
+          @keyup.enter="handleSubmit"
+          class="p-3 form-control mr-sm-2"
+          :class="{ 'is-invalid': $v.todoInput.$error }"
+          placeholder="Enter new todo"
+        />
+        <div v-if="!$v.todoInput.required" class="invalid-feedback">
+          Content is required
+        </div>
+        <button
+          class="btn btn-outline-primary bg-primary text-white mt-2"
+          @click="handleSubmit"
+        >
+          Add
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
+
 export default {
   name: 'InputTodo',
 
@@ -28,16 +36,25 @@ export default {
     }
   },
 
+  validations: {
+    todoInput: { required }
+  },
+
   methods: {
-    async storeTodo () {
-      if (!this.todoInput) {
-        alert('Content is required')
-      } else {
-        await this.$store.dispatch('storeTodo', {
-          content: this.todoInput
-        })
-        this.todoInput = ''
+    handleSubmit (e) {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
       }
+      this.storeTodo()
+    },
+
+    async storeTodo () {
+      await this.$store.dispatch('storeTodo', {
+        content: this.todoInput
+      })
+      this.todoInput = ''
+      this.$v.$reset()
     }
   }
 }

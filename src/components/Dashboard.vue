@@ -1,6 +1,13 @@
 <template>
   <div class="container card bg-light p-5 d-flex justify-content-center align-items-center flex-column">
     <h4 class="text-center mb-4">Have an account?</h4>
+    <div class="loader loader-default"></div>
+    <div
+      class="loader loader-default"
+      v-bind:class="{ 'is-active': loading }"
+      data-text
+    >
+    </div>
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <input type="text" v-model="usernameInput" class="form-control" :class="{ 'is-invalid': $v.usernameInput.$error }" placeholder="Username"/>
@@ -28,9 +35,12 @@
 <script>
 import { required } from 'vuelidate/lib/validators'
 import loginMixin from '../mixins/loginMixin'
+// import Loading from './Loading.vue'
 
 export default {
   name: 'Dashboard',
+
+  // components: { Loading },
 
   mixins: [loginMixin],
 
@@ -38,7 +48,7 @@ export default {
     return {
       usernameInput: '',
       passwordInput: '',
-      submitted: false
+      loading: this.$store.state.loading
     }
   },
 
@@ -49,7 +59,6 @@ export default {
 
   methods: {
     handleSubmit (e) {
-      this.submitted = true
       this.$v.$touch()
       if (this.$v.$invalid) {
         return

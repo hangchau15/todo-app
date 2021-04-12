@@ -32,8 +32,7 @@ export default {
   data () {
     return {
       usernameInput: '',
-      passwordInput: '',
-      submitted: false
+      passwordInput: ''
     }
   },
 
@@ -44,7 +43,6 @@ export default {
 
   methods: {
     handleSubmit (e) {
-      this.submitted = true
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
@@ -58,7 +56,6 @@ export default {
           username: this.usernameInput,
           password: this.passwordInput
         })
-        alert('Register successed')
         this.login()
       } catch (error) {
         console.log(error)

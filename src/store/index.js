@@ -10,7 +10,7 @@ export const store = new Vuex.Store({
   state: () => ({
     todos: [],
     todoInput: null,
-    token: localStorage.getItem('access_token') || null,
+    token: localStorage.getItem('access_token'),
     loading: false
   }),
 
@@ -22,11 +22,9 @@ export const store = new Vuex.Store({
     login (state, token) {
       if (token) {
         state.token = token
-      } else {
-        alert('Login failed')
-        state.loading = false
+        // state.loading = true
+        console.log('state: ', state.loading)
       }
-      state.loading = false
     },
 
     logout (state) {
@@ -34,9 +32,9 @@ export const store = new Vuex.Store({
       Vue.set(state, 'todos', [])
     },
 
-    loading (state) {
-      state.loading = true
-    },
+    // loading (state) {
+    //   state.loading = true
+    // },
 
     getAllTodos (state, todo) {
       const arr = todo.items
@@ -76,7 +74,7 @@ export const store = new Vuex.Store({
       }
     },
 
-    async login ({ commit }, data) {
+    async login ({ commit, state }, data) {
       try {
         const response = await axios.post('/auth/login', {
           username: data.username,
@@ -93,10 +91,8 @@ export const store = new Vuex.Store({
 
     async logout ({ commit, state }) {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + state.token
-      if (state.token) {
-        localStorage.removeItem('access_token')
-        commit('logout')
-      }
+      localStorage.removeItem('access_token')
+      commit('logout')
     },
 
     async getAllTodos ({ commit, state }) {

@@ -6,7 +6,6 @@ export default {
           username: this.usernameInput,
           password: this.passwordInput
         })
-        alert('Login successed')
         this.$router.push({ name: 'todo' })
       } catch (error) {
         console.log(error)

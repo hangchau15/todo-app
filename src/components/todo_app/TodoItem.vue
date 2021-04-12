@@ -12,7 +12,7 @@
               <button class="btn btn-outline-success" @click="updateTodo">
                 Ok
               </button>
-              <button class="btn btn-outline-danger" @click="cancel">X</button>
+              <button class="btn btn-outline-danger" @click="cancel">Cancel</button>
             </div>
           </div>
         </div>
@@ -66,6 +66,7 @@ export default {
       this.isEditting = false
       this.todoInput = ''
     },
+
     async updateTodo () {
       await this.$store.dispatch('updateTodo', this.todo)
       this.isEditting = false
