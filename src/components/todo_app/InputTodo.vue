@@ -31,7 +31,7 @@ export default {
   methods: {
     async storeTodo () {
       if (!this.todoInput) {
-        alert('Content required')
+        alert('Content is required')
       } else {
         await this.$store.dispatch('storeTodo', {
           content: this.todoInput

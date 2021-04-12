@@ -11,7 +11,6 @@
 </template>
 
 <script>
-/* eslint-disable */
 import TodoItem from './TodoItem.vue'
 import { mapGetters } from 'vuex'
 
@@ -24,7 +23,7 @@ export default {
     ...mapGetters(['getAllTodos'])
   },
 
-  mounted() {
+  mounted () {
     this.$store.dispatch('getAllTodos')
   }
 }

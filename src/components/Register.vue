@@ -3,12 +3,12 @@
     <h4 class="text-center mb-4">Create an account</h4>
     <form @submit.prevent="handleSubmit">
         <div class="form-group">
-          <input type="text" v-model="usernameInput" name="username" class="form-control" :class="{ 'is-invalid': submitted && $v.usernameInput.$error }" placeholder="Username"/>
-          <div v-if="submitted && !$v.usernameInput.required" class="invalid-feedback">Userame is required</div>
+          <input type="text" v-model="usernameInput" name="username" class="form-control" :class="{ 'is-invalid': $v.usernameInput.$error }" placeholder="Username"/>
+          <div v-if="!$v.usernameInput.required" class="invalid-feedback">Username is required</div>
         </div>
         <div class="form-group">
-            <input type="password" v-model="passwordInput" @keyup.enter="handleSubmit()" name="password" class="form-control" :class="{ 'is-invalid': submitted && $v.passwordInput.$error }" placeholder="Password"/>
-            <div v-if="submitted && $v.passwordInput.$error" class="invalid-feedback">
+            <input type="password" v-model="passwordInput" @keyup.enter="handleSubmit()" name="password" class="form-control" :class="{ 'is-invalid': $v.passwordInput.$error }" placeholder="Password"/>
+            <div v-if="$v.passwordInput.$error" class="invalid-feedback">
               <span v-if="!$v.passwordInput.required">Password is required</span>
               <span v-if="!$v.passwordInput.minLength">Password must be at least 6 characters</span>
             </div>
@@ -22,9 +22,12 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
+import loginMixin from '../mixins/loginMixin'
 
 export default {
   name: 'Register',
+
+  mixins: [loginMixin],
 
   data () {
     return {
@@ -42,7 +45,6 @@ export default {
   methods: {
     handleSubmit (e) {
       this.submitted = true
-      // stop here if form is invalid
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
@@ -58,18 +60,6 @@ export default {
         })
         alert('Register successed')
         this.login()
-      } catch (error) {
-        console.log(error)
-      }
-    },
-
-    async login () {
-      try {
-        await this.$store.dispatch('login', {
-          username: this.usernameInput,
-          password: this.passwordInput
-        })
-        this.$router.push({ name: 'todo' })
       } catch (error) {
         console.log(error)
       }

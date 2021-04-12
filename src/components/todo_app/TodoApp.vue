@@ -25,7 +25,7 @@ export default {
   methods: {
     logout () {
       this.$store.dispatch('logout')
-      this.$router.push({ name: 'dashbroad' })
+      this.$router.push({ name: 'dashboard' })
     }
   }
 }

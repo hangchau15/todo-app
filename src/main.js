@@ -1,12 +1,8 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-/* eslint-disable */
-/* eslint-disable no-new */
 import Vue from 'vue'
 import App from './App'
 import Vuelidate from 'vuelidate'
 import routes from './router/index'
-import { store } from './store/auth/store'
+import { store } from './store/index'
 import { BootstrapVue } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -19,23 +15,23 @@ Vue.use(VueRouter)
 Vue.use(Vuelidate)
 
 const router = new VueRouter({
-  routes, 
+  routes,
   mode: 'history'
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (!store.getters.authenticated) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.state.token) {
       next({
-        name: 'dashbroad',
+        name: 'dashboard'
       })
     } else {
       next()
     }
-  } else if (to.matched.some((record) => record.meta.requiresVisitor)) {
-    if (store.getters.authenticated) {
+  } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+    if (store.state.token) {
       next({
-        name: 'todo',
+        name: 'todo'
       })
     } else {
       next()
@@ -48,5 +44,5 @@ router.beforeEach((to, from, next) => {
 new Vue({
   store: store,
   router,
-  render: h => h(App),
+  render: h => h(App)
 }).$mount('#app')

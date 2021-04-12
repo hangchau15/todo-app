@@ -46,7 +46,7 @@ export default {
 
   data () {
     return {
-      isEditting: this.isEditting,
+      isEditting: false,
       todoInput: this.todoInput
     }
   },

@@ -5,15 +5,12 @@
 </template>
 
 <script>
-/* eslint-disable */
-import TodoApp from './components/todo_app/TodoApp.vue'
-import Login from './components/Login.vue'
 import Dashboard from './components/Dashboard.vue'
 
 export default {
   name: 'App',
 
-  components: {  Dashboard }
+  components: { Dashboard }
 }
 </script>
 
