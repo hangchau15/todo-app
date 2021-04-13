@@ -42,7 +42,7 @@ export const store = new Vuex.Store({
       const index = state.todos.findIndex(item => {
         return todo.id === item.id
       })
-      Vue.set(todo, index, state.todoInput)
+      Vue.set(state.todos, index, todo)
     },
 
     deleteTodo (state, todo) {
@@ -108,10 +108,10 @@ export const store = new Vuex.Store({
       }
     },
 
-    async updateTodo ({ commit }, todo) {
+    async updateTodo ({ commit }, { todo, content }) {
       try {
         const response = await axios.put(`api/todos/${todo.id}`, {
-          content: todo.content
+          content
         })
         commit('updateTodo', response.data)
       } catch (error) {

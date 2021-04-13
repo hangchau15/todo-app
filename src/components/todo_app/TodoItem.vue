@@ -7,12 +7,23 @@
             {{ todo.content }}
           </div>
           <div v-else class="d-flex">
-            <input class="form-control" type="text" v-model="todo.content" @keyup.enter="updateTodo()" />
+            <input
+              class="form-control"
+              :class="{ 'is-invalid': $v.todoInput.$error }"
+              type="text"
+              v-model="todoInput"
+              @keyup.enter="handleSubmit"
+            />
+            <div v-if="!$v.todoInput.required" class="invalid-feedback">
+              Content is required
+            </div>
             <div class="d-flex">
-              <button class="btn btn-outline-success" @click="updateTodo">
+              <button class="btn btn-outline-success" @click="handleSubmit">
                 Ok
               </button>
-              <button class="btn btn-outline-danger" @click="cancel">Cancel</button>
+              <button class="btn btn-outline-danger" @click="cancel">
+                Cancel
+              </button>
             </div>
           </div>
         </div>
@@ -34,6 +45,8 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
+
 export default {
   name: 'TodoItem',
 
@@ -47,13 +60,24 @@ export default {
   data () {
     return {
       isEditting: false,
-      todoInput: this.todoInput
+      todoInput: ''
     }
   },
 
+  validations: {
+    todoInput: { required }
+  },
+
   methods: {
-    editTodo (todo) {
-      this.selectedID = todo.id
+    handleSubmit (e) {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }
+      this.updateTodo()
+    },
+
+    editTodo  (todo) {
       this.isEditting = true
       this.todoInput = todo.content
     },
@@ -68,7 +92,9 @@ export default {
     },
 
     async updateTodo () {
-      await this.$store.dispatch('updateTodo', this.todo)
+      await this.$store.dispatch('updateTodo', { todo: this.todo,
+        content: this.todoInput
+      })
       this.isEditting = false
     }
   }
