@@ -14,45 +14,45 @@ export const store = new Vuex.Store({
   }),
 
   mutations: {
-    register(state, token) {
+    register (state, token) {
       state.token = token
     },
 
-    login(state, token) {
+    login (state, token) {
       state.token = token
     },
 
-    logout(state) {
+    logout (state) {
       Vue.delete(state, 'token')
       Vue.set(state, 'todos', [])
     },
 
-    getAllTodos(state, todo) {
+    getAllTodos (state, todo) {
       const arr = todo.items
       arr.forEach(element => {
         state.todos.push(element)
       })
     },
 
-    storeTodo(state, todo) {
+    storeTodo (state, todo) {
       Vue.set(state.todos, state.todos.length, todo)
     },
 
-    updateTodo(state, todo) {
+    updateTodo (state, todo) {
       const index = state.todos.findIndex(item => {
         return todo.id === item.id
       })
       Vue.set(todo, index, state.todoInput)
     },
 
-    deleteTodo(state, todo) {
+    deleteTodo (state, todo) {
       const index = state.todos.indexOf(todo)
       Vue.delete(state.todos, index)
     }
   },
 
   actions: {
-    async register({ commit }, data) {
+    async register ({ commit }, data) {
       try {
         await axios.post('/auth/register', {
           username: data.username,
@@ -65,7 +65,7 @@ export const store = new Vuex.Store({
       }
     },
 
-    async login({ commit }, data) {
+    async login ({ commit }, data) {
       try {
         const response = await axios.post('/auth/login', {
           username: data.username,
@@ -80,13 +80,13 @@ export const store = new Vuex.Store({
       }
     },
 
-    async logout({ commit, state }) {
+    async logout ({ commit, state }) {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + state.token
       localStorage.removeItem('access_token')
       commit('logout')
     },
 
-    async getAllTodos({ commit, state }) {
+    async getAllTodos ({ commit, state }) {
       try {
         Vue.set(state, 'todos', [])
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + state.token
@@ -97,7 +97,7 @@ export const store = new Vuex.Store({
       }
     },
 
-    async storeTodo({ commit }, todo) {
+    async storeTodo ({ commit }, todo) {
       try {
         const response = await axios.post('api/todos', {
           content: todo.content
@@ -108,7 +108,7 @@ export const store = new Vuex.Store({
       }
     },
 
-    async updateTodo({ commit }, todo) {
+    async updateTodo ({ commit }, todo) {
       try {
         const response = await axios.put(`api/todos/${todo.id}`, {
           content: todo.content
@@ -119,7 +119,7 @@ export const store = new Vuex.Store({
       }
     },
 
-    async deleteTodo({ commit }, todo) {
+    async deleteTodo ({ commit }, todo) {
       try {
         await axios.delete(`api/todos/${todo.id}`)
         commit('deleteTodo', todo)

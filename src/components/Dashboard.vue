@@ -58,24 +58,23 @@ export default {
 
   mixins: [loginMixin],
 
-  data() {
+  data () {
     return {
       usernameInput: '',
       passwordInput: '',
       loading: false,
-      isErrorLogin: false,
+      isErrorLogin: false
     }
   },
 
   validations: {
     usernameInput: { required },
-    passwordInput: { required },
+    passwordInput: { required }
   },
 
   methods: {
-    handleSubmit(e) {
+    handleSubmit (e) {
       this.loading = true
-      this.isErrorLogin = true
       this.$v.$touch()
       if (this.$v.$invalid) {
         this.loading = false
@@ -83,8 +82,8 @@ export default {
         return
       }
       this.login()
-    },
-  },
+    }
+  }
 }
 </script>
 
