@@ -9,7 +9,6 @@ export default {
         this.isErrorLogin = true
         this.$router.push({ name: 'todo' })
       } catch (error) {
-        this.loading = false
         this.isErrorLogin = true
         console.log(error)
       }

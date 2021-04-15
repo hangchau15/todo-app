@@ -3,12 +3,6 @@
     class="container card bg-light p-5 d-flex justify-content-center align-items-center flex-column"
   >
     <h4 class="text-center mb-4">Have an account?</h4>
-    <div class="loader loader-default"></div>
-    <div
-      class="loader loader-default"
-      v-bind:class="{ 'is-active': loading }"
-      data-text
-    ></div>
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <input
@@ -62,7 +56,6 @@ export default {
     return {
       usernameInput: '',
       passwordInput: '',
-      loading: false,
       isErrorLogin: false
     }
   },
@@ -74,10 +67,8 @@ export default {
 
   methods: {
     handleSubmit (e) {
-      this.loading = true
       this.$v.$touch()
       if (this.$v.$invalid) {
-        this.loading = false
         this.isErrorLogin = false
         return
       }

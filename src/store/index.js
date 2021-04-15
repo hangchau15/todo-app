@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 import axios from 'axios'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
@@ -9,8 +10,11 @@ axios.defaults.baseURL = 'https://todo-mvc-api-typeorm.herokuapp.com'
 export const store = new Vuex.Store({
   state: () => ({
     todos: [],
-    token: localStorage.getItem('access_token')
+    token: '',
+    loading: false
   }),
+
+  plugins: [createPersistedState()],
 
   mutations: {
     register (state, token) {
@@ -47,18 +51,29 @@ export const store = new Vuex.Store({
     deleteTodo (state, todo) {
       const index = state.todos.indexOf(todo)
       Vue.delete(state.todos, index)
+    },
+
+    loading (state) {
+      state.loading = true
+    },
+
+    noLoading (state) {
+      state.loading = false
     }
   },
 
   actions: {
     async register ({ commit }, data) {
       try {
+        commit('loading')
         await axios.post('/auth/register', {
           username: data.username,
           password: data.password
         })
         commit('register')
+        commit('noLoading')
       } catch (error) {
+        commit('noLoading')
         commit('register')
         throw error
       }
@@ -66,14 +81,16 @@ export const store = new Vuex.Store({
 
     async login ({ commit }, data) {
       try {
+        commit('loading')
         const response = await axios.post('/auth/login', {
           username: data.username,
           password: data.password
         })
         const token = response.data.token
-        localStorage.setItem('access_token', token)
         commit('login', token)
+        commit('noLoading')
       } catch (error) {
+        commit('noLoading')
         commit('login')
         throw error
       }
@@ -81,7 +98,6 @@ export const store = new Vuex.Store({
 
     async logout ({ commit, state }) {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + state.token
-      localStorage.removeItem('access_token')
       commit('logout')
     },
 
@@ -96,33 +112,45 @@ export const store = new Vuex.Store({
       }
     },
 
-    async storeTodo ({ commit }, todo) {
+    async storeTodo ({ commit, state }, todo) {
       try {
+        commit('loading')
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + state.token
         const response = await axios.post('api/todos', {
           content: todo.content
         })
         commit('storeTodo', response.data)
+        commit('noLoading')
       } catch (error) {
+        commit('noLoading')
         console.log(error)
       }
     },
 
-    async updateTodo ({ commit }, { todo, content }) {
+    async updateTodo ({ commit, state }, { todo, content }) {
       try {
+        commit('loading')
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + state.token
         const response = await axios.put(`api/todos/${todo.id}`, {
           content
         })
         commit('updateTodo', response.data)
+        commit('noLoading')
       } catch (error) {
+        commit('noLoading')
         console.log(error)
       }
     },
 
-    async deleteTodo ({ commit }, todo) {
+    async deleteTodo ({ commit, state }, todo) {
       try {
+        commit('loading')
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + state.token
         await axios.delete(`api/todos/${todo.id}`)
         commit('deleteTodo', todo)
+        commit('noLoading')
       } catch (error) {
+        commit('noloading')
         console.log(error)
       }
     }
