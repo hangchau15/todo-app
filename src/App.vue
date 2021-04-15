@@ -1,14 +1,26 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
-    <!-- <h1> Todo list</h1> -->
-    <router-view/>
+    <router-view></router-view>
+    <div v-if="loading">
+      <loading></loading>
+    </div>
   </div>
 </template>
 
 <script>
+import Dashboard from './components/Dashboard.vue'
+import Loading from './components/Loading.vue'
+
 export default {
-  name: 'App'
+  name: 'App',
+
+  components: { Dashboard, Loading },
+
+  computed: {
+    loading () {
+      return this.$store.state.loading
+    }
+  }
 }
 </script>
 

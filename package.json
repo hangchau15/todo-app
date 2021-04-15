@@ -14,13 +14,19 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@vue/composition-api": "^1.0.0-rc.6",
+    "@vuelidate/core": "^2.0.0-alpha.14",
+    "@vuelidate/validators": "^2.0.0-alpha.12",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "pure-css-loader": "^3.3.3",
     "vue": "^2.6.12",
     "vue-axios": "^3.2.4",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.5.1",
+    "vuelidate": "^0.7.6",
+    "vuex": "^3.6.2",
+    "vuex-persistedstate": "^4.0.0-beta.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -51,6 +57,11 @@
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^3.0.1",
     "eslint-plugin-vue": "^4.0.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-html": "^5.0.3",
+    "eslint-plugin-jest": ">=22.3.0",
+    "eslint-plugin-nuxt": ">=0.4.2",
+    "eslint-plugin-prettier": "^3.0.1",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
